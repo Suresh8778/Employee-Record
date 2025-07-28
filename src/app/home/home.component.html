@@ -1,0 +1,122 @@
+<div class="container mt-4">
+  <div class="">
+    <div class="emp-header d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+      <h4 class="mb-3 mb-md-0">Employee List</h4>
+
+      <div class="d-flex align-items-center flex-box gap-2 flex-row w-md-auto">
+        <button class="btn btn-success" (click)="onAddEmployee()">Add Employee</button>
+        <button class="btn btn-danger" (click)="onDeleteSelected()">Delete Employee</button>
+      </div>
+    </div>
+
+
+    <div class="border p-2 my-3">
+      <h5>Filter Employee:</h5>
+      <div class="d-flex flex-column flex-md-row gap-2 my-2">
+        <input type="text" class="form-control" placeholder="Search by ID" [(ngModel)]="searchId"
+          (ngModelChange)="currentPage = 1" />
+        <input type="text" class="form-control" placeholder="Search by Name" [(ngModel)]="searchName" />
+        <select class="form-select" [(ngModel)]="searchDepartment">
+          <option value="">Department</option>
+          <option value="Hr">HR</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Finance">Finance</option>
+          <option value="Engineering">Engineering</option>
+        </select>
+
+        <select class="form-select" [(ngModel)]="searchStatus">
+          <option value="">All Status</option>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+    </div>
+
+
+
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered text-center align-middle">
+        <thead class="table-secondary">
+          <tr>
+            <th><input type="checkbox" [checked]="areAllSelected()" (change)="toggleAllSelection($event)" /></th>
+            <th>Employee ID</th>
+            <th>Name</th>
+            <th class="d-none d-md-table-cell">Department</th>
+            <th class="d-none d-md-table-cell">Hire Date</th>
+            <th class="d-none d-md-table-cell">Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let emp of paginatedEmployees()">
+            <td>
+              <input type="checkbox" [(ngModel)]="emp.selected" />
+            </td>
+            <td>{{ emp.employeeId }}</td>
+            <td>{{ emp.firstName }} {{ emp.lastName }}</td>
+            <td class="d-none d-md-table-cell">{{ emp.department }}</td>
+            <td class="d-none d-md-table-cell">{{ emp.hireDate | date: 'dd-MM-yyyy' }}</td>
+            <td class="d-none d-md-table-cell">{{ emp.employeeStatus }}</td>
+
+            <td>
+              <button class="btn btn-outline-primary btn-sm me-2" (click)="viewEmployee(emp)"><i
+                  class="bi bi-eye-fill"></i></button>
+              <button class="btn btn-outline-warning btn-sm me-2" (click)="onEdit(emp)"><i
+                  class="bi bi-pencil"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      <!-- Pagination -->
+      <nav class="mt-3 d-flex justify-content-center">
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="prevPage()">Prev</button>
+          </li>
+          <li class="page-item" *ngFor="let page of totalPagesArray()" [class.active]="page === currentPage">
+            <button class="page-link" (click)="goToPage(page)">{{ page }}</button>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="nextPage()">Next</button>
+          </li>
+        </ul>
+      </nav>
+
+
+
+      <!-- Employee Modal -->
+      <div class="modal fade" id="employeeDetailModal" tabindex="-1" aria-labelledby="employeeDetailModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="employeeDetailModalLabel">Employee Details</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row" *ngIf="selectedEmployee">
+              <div class="col-md-5">
+                <p><strong>ID:</strong> {{ selectedEmployee.employeeId }}</p>
+                <p><strong>Name:</strong> {{ selectedEmployee.firstName }} {{ selectedEmployee.lastName }}</p>
+                <p><strong>Email:</strong> {{ selectedEmployee.email }}</p>
+                <p><strong>Department:</strong> {{ selectedEmployee.department }}</p>
+                <p><strong>Phone:</strong> {{ selectedEmployee.phone }}</p>
+                <p><strong>Gender:</strong> {{ selectedEmployee.gender }}</p>
+                <p><strong>Date of Birth:</strong> {{ selectedEmployee.dateOfBirth | date:'mediumDate' }}</p>
+                <p><strong>Joining Date:</strong> {{ selectedEmployee.hireDate | date:'mediumDate' }}</p>
+                <p><strong>Salary:</strong> ₹{{ selectedEmployee.salary }}</p>
+                <p><strong>Status:</strong> {{ selectedEmployee.employeeStatus }}</p>
+                <p><strong>Manager:</strong> {{ selectedEmployee.manager || 'NA' }}</p>
+                <p><strong>Address:</strong> {{ selectedEmployee.address1 }}</p>
+                <p><strong>City:</strong> {{ selectedEmployee.city }}</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

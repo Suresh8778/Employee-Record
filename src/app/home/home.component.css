@@ -1,0 +1,39 @@
+.search {
+  max-width: 200px !important;
+  width: 100%;
+}
+
+.emp-header input.form-control {
+  max-width: 250px;
+}
+
+.btn-success {
+  white-space: nowrap;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+}
+
+.table thead th {
+  background-color: #343a40;
+  color: white;
+}
+
+@media (max-width: 767px) {
+  .emp-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .emp-header input,
+  .emp-header button {
+    width: 100%;
+  }
+}
+
+.modal-content{
+  max-width: 600px;
+}
+

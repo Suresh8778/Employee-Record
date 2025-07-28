@@ -1,0 +1,271 @@
+<div class="container mt-4">
+
+  <div class="emp-details">
+    <div class="emp-head">
+      <h4>Employee Details</h4>
+      <div class="text-end">
+        <button class="btn btn-success me-2" (click)="onSave()">Save</button>
+        <button class="btn btn-secondary me-2" (click)="onCancel()">Cancel</button>
+      </div>
+    </div>
+
+    <p class="text-muted small">
+      <span class="text-danger manditory">*</span> Required fields. Fields without an asterisk are optional.
+    </p>
+
+    <!--Tabs -->
+    <ul class="nav nav-tabs mb-3" id="employeeTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button"
+          role="tab" (click)="onTabClick('personal')">Personal Info</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="employment-tab" data-bs-toggle="tab" data-bs-target="#employment" type="button"
+          role="tab" (click)="onTabClick('employment')">Employment</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="compensation-tab" data-bs-toggle="tab" data-bs-target="#compensation" type="button"
+          role="tab" (click)="onTabClick('compensation')">Compensation</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address" type="button"
+          role="tab" (click)="onTabClick('address')">Address</button>
+      </li>
+    </ul>
+
+
+    <form [formGroup]="employeeForm">
+
+      <div class="tab-content p-4 border border-top-0">
+        <!-- Personal Info -->
+        <div class="tab-pane fade show active" id="personal">
+          <div class="row">
+            <div class="mb-3 col-md-6">
+              <label>Employee ID <span class="text-danger">*</span> </label>
+              <input formControlName="employeeId" class="form-control" />
+              <div *ngIf="employeeForm.get('employeeId')?.touched && employeeForm.get('employeeId')?.invalid"
+                class="text-danger small">
+                Employee ID is required.
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>First Name <span class="text-danger">*</span></label>
+              <input formControlName="firstName" class="form-control" />
+              <div *ngIf="employeeForm.get('firstName')?.touched && employeeForm.get('firstName')?.invalid"
+                class="text-danger small">
+                First Name is required.
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>Last Name <span class="text-danger">*</span></label>
+              <input formControlName="lastName" class="form-control" />
+              <div *ngIf="employeeForm.get('lastName')?.touched && employeeForm.get('lastName')?.invalid"
+                class="text-danger small">
+                Last Name is required.
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>Date of Birth <span class="text-danger">*</span></label>
+              <input type="date" formControlName="dateOfBirth" class="form-control" />
+              <div *ngIf="employeeForm.get('dateOfBirth')?.touched && employeeForm.get('dateOfBirth')?.invalid"
+                class="text-danger small">
+                Date of Birth is required.
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>Gender <span class="text-danger">*</span></label>
+              <select formControlName="gender" class="form-control form-select">
+                <option value="">Select</option>
+                <option *ngFor="let gender of genders" [value]="gender">{{ gender }}</option>
+              </select>
+              <div *ngIf="employeeForm.get('gender')?.touched && employeeForm.get('gender')?.invalid"
+                class="text-danger small">
+                Gender is required.
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>Email <span class="text-danger">*</span></label>
+              <input type="email" formControlName="email" class="form-control" />
+              <div *ngIf="employeeForm.get('email')?.touched && employeeForm.get('email')?.hasError('required')"
+                class="text-danger small">
+                Email is required.
+              </div>
+              <div *ngIf="employeeForm.get('email')?.touched && employeeForm.get('email')?.hasError('email')"
+                class="text-danger small">
+                Enter a valid email.
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>Phone <span class="text-danger">*</span></label>
+              <input formControlName="phone" class="form-control" type="tel" />
+              <div *ngIf="employeeForm.get('phone')?.touched && employeeForm.get('phone')?.invalid"
+                class="text-danger small">
+                Phone is required.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Employment Info -->
+        <div class="tab-pane fade" id="employment">
+          <div class="row">
+            <div class="mb-3 col-md-6">
+              <label>Department <span class="text-danger">*</span></label>
+              <select formControlName="department" class="form-control form-select">
+                <option value="">Select</option>
+                <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+              </select>
+              <div *ngIf="employeeForm.get('department')?.touched && employeeForm.get('department')?.invalid"
+                class="text-danger small">
+                Department is required.
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>Job Title <span class="text-danger">*</span></label>
+              <select formControlName="jobTitle" class="form-control form-select">
+                <option value="">Select</option>
+                <option *ngFor="let title of jobTitles" [value]="title">{{ title }}</option>
+              </select>
+              <div *ngIf="employeeForm.get('jobTitle')?.touched && employeeForm.get('jobTitle')?.invalid"
+                class="text-danger small">
+                Job Title is required.
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>Hire Date <span class="text-danger">*</span></label>
+              <input type="date" formControlName="hireDate" class="form-control" />
+              <div *ngIf="employeeForm.get('hireDate')?.touched && employeeForm.get('hireDate')?.invalid"
+                class="text-danger small">
+                Hire Date is required.
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>Employment Type <span class="text-danger">*</span></label>
+              <select formControlName="employmentType" class="form-select form-control">
+                <option value="">Select</option>
+                <option *ngFor="let type of employmentTypes" [value]="type">{{ type }}</option>
+              </select>
+              <div *ngIf="employeeForm.get('employmentType')?.touched && employeeForm.get('employmentType')?.invalid"
+                class="text-danger small">
+                Employment Type is required.
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>Status <span class="text-danger">*</span></label>
+              <select formControlName="employeeStatus" class="form-control form-select">
+                <option value="">Select</option>
+                <option *ngFor="let stat of statuses" [value]="stat">{{ stat }}</option>
+              </select>
+              <div *ngIf="employeeForm.get('employeeStatus')?.touched && employeeForm.get('employeeStatus')?.invalid"
+                class="text-danger small">
+                Status is required.
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>Manager (Optional)</label>
+              <input formControlName="manager" class="form-control" />
+              <div *ngIf="employeeForm.get('manager')?.touched && employeeForm.get('manager')?.invalid"
+                class="text-danger small">
+                Manager is required.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Compensation -->
+        <div class="tab-pane fade" id="compensation">
+          <div class="row">
+            <div class="mb-3 col-md-6">
+              <label>Salary <span class="text-danger">*</span></label>
+              <input formControlName="salary" class="form-control" />
+              <div *ngIf="employeeForm.get('salary')?.touched && employeeForm.get('salary')?.invalid"
+                class="text-danger small">
+                Salary is required.
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>Pay Frequency (Optional)</label>
+              <input formControlName="payFrequency" class="form-control" />
+              <div *ngIf="employeeForm.get('payFrequency')?.touched && employeeForm.get('payFrequency')?.invalid"
+                class="text-danger small">
+                Pay Frequency is required.
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>Bank Account <span class="text-danger">*</span></label>
+              <input formControlName="bankAccount" class="form-control" />
+              <div *ngIf="employeeForm.get('bankAccount')?.touched && employeeForm.get('bankAccount')?.invalid"
+                class="text-danger small">
+                Bank Account is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div class="tab-pane fade" id="address">
+          <div class="row">
+            <div class="mb-3 col-md-6">
+              <label>Address 1 <span class="text-danger">*</span></label>
+              <input formControlName="address1" class="form-control" />
+              <div *ngIf="employeeForm.get('address1')?.touched && employeeForm.get('address1')?.invalid"
+                class="text-danger small">
+                Address is required.
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>Address 2 (Optional)</label>
+              <input formControlName="address2" class="form-control" />
+            </div>
+            <div class="mb-3 col-md-4">
+              <label>City <span class="text-danger">*</span></label>
+              <input formControlName="city" class="form-control" />
+              <div *ngIf="employeeForm.get('city')?.touched && employeeForm.get('city')?.invalid"
+                class="text-danger small">
+                City is required.
+              </div>
+            </div>
+            <div class="mb-3 col-md-4">
+              <label>State <span class="text-danger">*</span></label>
+              <input formControlName="state" class="form-control" />
+              <div *ngIf="employeeForm.get('state')?.touched && employeeForm.get('state')?.invalid"
+                class="text-danger small">
+                State is required.
+              </div>
+            </div>
+            <div class="mb-3 col-md-4">
+              <label>Postal Code <span class="text-danger">*</span></label>
+              <input formControlName="postalCode" class="form-control" />
+              <div *ngIf="employeeForm.get('postalCode')?.touched && employeeForm.get('postalCode')?.invalid"
+                class="text-danger small">
+                Postal Code is required.
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>Country <span class="text-danger">*</span></label>
+              <input formControlName="country" class="form-control" />
+              <div *ngIf="employeeForm.get('country')?.touched && employeeForm.get('country')?.invalid"
+                class="text-danger small">
+                Country is required.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </form>
+
+
+    <!-- Navigation Buttons -->
+    <div class="d-flex justify-content-between mt-4">
+      <button class="btn btn-outline-primary" (click)="onPrevious()"
+        [disabled]="currentTabIndex === 0">Previous</button>
+      <button class="btn btn-outline-primary" (click)="onNext()"
+        [disabled]="currentTabIndex === tabList.length - 1">Next</button>
+    </div>
+
+  </div>
+
+</div>
